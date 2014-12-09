@@ -3,6 +3,7 @@
  * Distribution License 1.0 (the License). You may not use this file except in compliance with the
  * License.
  * Copyright 2014 ForgeRock AS.
+ * Author: Ludovic Poitou
  */
 
 import org.forgerock.openig.http.Response

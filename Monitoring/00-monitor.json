@@ -1,0 +1,8 @@
+{
+  "handler": {
+    "type": "MonitorEndpointHandler"
+  },
+  "condition": "${exchange.request.method == 'GET'
+      and exchange.request.uri.path == '/openig/monitor'}",
+  "audit": "monitor"
+}

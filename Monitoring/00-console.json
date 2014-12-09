@@ -1,0 +1,12 @@
+{
+    "handler":{
+        "type": "StaticResponseHandler",
+        "config" : {
+            "status": 200,
+            "entity": "${read('/Users/ludo/.openig/config/routes/console.html')}"
+        }
+    },
+    "condition": "${exchange.request.method == 'GET'
+      and exchange.request.uri.path == '/openig/Console'}",
+    "audit" : "Console"
+}

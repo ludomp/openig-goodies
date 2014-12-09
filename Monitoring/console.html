@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <h2>Welcome to OpenIG Monitoring Console</h2>
+    <br/>
+    <div>
+    <div class="table-responsive"> 
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Route</th>
+                    <th>In Progress</th>
+                    <th>Completed</th>
+                    <th>Internal Errors</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">                
+            </tbody>
+        </table>
+    </div>
+<script>
+    $(document).ready(function () {
+        setInterval(function () {
+            $.get("/openig/monitor").success(writeRoutesStats);
+        }, 3000);
+    });
+    
+    function writeRoutesStats(data) {
+        $("#table-body").empty();
+        $.each(data, function(key, value) {
+            var tr = $("<tr></tr>");
+            var route = $("<td>" + key + "</td>");
+            var inprogress = $("<td>" + value['in progress'] + "</td>");
+            var completed = $("<td>" + value.completed + "</td>");
+            var errors = $("<td>" + value['internal errors'] + "</td>");
+            if (value['internal errors'] > 0 ) {
+                if (value.completed == 0) {
+                    tr.addClass("danger");
+                } else {
+                    tr.addClass("warning");
+                }
+            } else if (value.completed > 5) {
+                tr.addClass("success")
+            }
+            tr.append(route, inprogress, completed, errors);
+            $('#table-body').append(tr);
+        });
+    }   
+</script>
+<p class="text-center">Copyright 2014 - ForgeRock AS</p>
+</body>
+</html>
